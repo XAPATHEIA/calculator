@@ -20,7 +20,10 @@ body {
     border-radius: 20px;
 }
 
-#calculator-output {
+#calculator-display {
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
     margin-top: 20px;
     align-self: center;
     box-sizing: border-box;
@@ -29,6 +32,12 @@ body {
     min-height: 10%;
     border: 2px solid black;
     border-radius: 20px;
+}
+
+#calculator-output {
+    font-size: 30px;
+    margin: 0px;
+    padding: 10px;
 }
 
 #calculator-buttons {
