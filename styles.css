@@ -48,3 +48,8 @@ body {
 #equals {
     width: 200px;
 }
+
+button {
+    font-size: 30px;
+    font-weight: bold;
+}
