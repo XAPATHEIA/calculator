@@ -15,6 +15,8 @@ function divide(a, b) {
     }
 }
 
+const modulo = (a, b) => a % b;
+
 function operate(a, operator, b) {
     if (operator == '+') {
         add(a, b);
@@ -30,7 +32,7 @@ function operate(a, operator, b) {
 }
 
 const operations = {
-    '%': 'modulo',
+    '%': modulo,
     '/': divide,
     '×': multiply,
     '+': add,
@@ -82,34 +84,50 @@ function calculate(finalCalcString) {
         }
     }
 
+    while (finalCalcArray) {
+        let operator = finalCalcArray.find(function(operator, index) {});
+    }
+
+/*
     let numberA = '';
     let numberB = '';
     let numberACompleted = false;
     let numberBCompleted = false;
     let operator = '';
 
-    for (let index = 0; index < finalCalcArray.length; index++) {
-        if (!(checkForOperator(finalCalcArray[index])) && !(numberACompleted)) {
-            numberA += finalCalcArray[index];
-        } else if (!(checkForOperator(finalCalcArray[index])) && !(numberBCompleted)) {
-            numberB += finalCalcArray[index];
-        } else if (checkForOperator(finalCalcArray[index])) {
-            numberACompleted = true;
-            operator = finalCalcArray[index];
-        } else {
-            finalCalcArray.splice(0, index-1);
-            numberBCompleted = true;
-        }
+    function resetMathSection() {
+        numberA = '';
+        numberB = '';
+        numberACompleted = false;
+        numberBCompleted = false;
+        operator = '';
     }
 
-    console.log(finalCalcArray)
-    console.log(numberA);
-    console.log(numberB);
-    console.log(operator);
 
+    function calculateSection() {
+        for (let index = 0; index < finalCalcArray.length; index++) {
+            if (!(checkForOperator(finalCalcArray[index])) && !(numberACompleted)) {
+                numberA += finalCalcArray[index];
+            } else if (!(checkForOperator(finalCalcArray[index])) && !(numberBCompleted)) {
+                numberB += finalCalcArray[index];
+            } else if (checkForOperator(finalCalcArray[index])) {
+                numberACompleted = true;
+                operator = finalCalcArray[index];
+            } else {
+                numberBCompleted = true;
+            }
+         }
+    }
+    
+    
+    calculateSection();
+    console.log(finalCalcArray)
     runningCalculation = operations[operator](numberA, numberB);
+    resetMathSection();
     
     console.log(runningCalculation);
+
+*/
 }
 
 let runningCalculation = 0;
