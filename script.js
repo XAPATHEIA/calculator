@@ -42,14 +42,40 @@ displayElement = document.getElementById('calculator-output');
 
 let operators = ['%', '/', '+', '-', '×'];
 
-function checkForExistence(operator, array) {
-    for (i = 0; i < array.length; i++) {
-        if (array[i] === operator) {
+function checkForOperator(operator) {
+    for (i = 0; i < operators.length; i++) {
+        if (operators[i] === operator) {
             return true;
         }
     }
     return false;
 }
+
+function calculate(finalCalcString) {
+    // removing whitespaces
+    let calcArray = finalCalcString.split('');
+    let finalCalcArray = calcArray.filter(argument => argument != ' ');
+
+    // check if calculation starts and ends with an operator
+    if (checkForOperator(finalCalcArray[0]) && checkForOperator(finalCalcArray[finalCalcArray.length - 1])) {
+        console.log('Incorrect Format');
+        return 'Error';
+    }
+
+    // error check - two operators in a row
+    let index = 0;
+    for (let index = 0; index < finalCalcArray.length - 1; index++) {
+        if (checkForOperator(finalCalcArray[index]) && checkForOperator(finalCalcArray[index + 1])) {
+            console.log('Two Operators in a Row');
+            return 'Error';
+        }
+    }
+
+    console.log('its fine');
+
+}
+
+
 
 function updateDisplay(event) {
     const button = event.target;
@@ -57,17 +83,14 @@ function updateDisplay(event) {
     if (button.value == 'AC' || button.value == 'CE') {
         displayElement.innerText = '';
     } else if (button.value == '=') {
-        calculate();
+        calculate(displayElement.innerText);
     // If an operator has been pressed, then will add spacing to the display
-    } else if (checkForExistence(button.value, operators)) {      
+    } else if (checkForOperator(button.value, operators)) {      
         displayElement.innerText += ' ' + button.value;
     // if an operator is at the end of the current display value, will add spacing to the display
-    } else if (checkForExistence(displayElement.innerText.slice(-1), operators)) {
+    } else if (checkForOperator(displayElement.innerText.slice(-1), operators)) {
         displayElement.innerText += ' ' + button.value;
     } else {
         displayElement.innerText += button.value;
     }
 }
-
-
-
