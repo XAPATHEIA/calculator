@@ -9,7 +9,9 @@ body {
 
 
 #calculator-container {
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     text-align: center; 
     vertical-align: middle; 
     width: 450px;
@@ -18,3 +20,31 @@ body {
     border-radius: 20px;
 }
 
+#calculator-output {
+    margin-top: 20px;
+    align-self: center;
+    box-sizing: border-box;
+    min-width: 90%;
+    height: 20%;
+    min-height: 10%;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+#calculator-buttons {
+    margin-top: 40px;
+    justify-content: space-evenly;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+
+.calculator-button {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+#equals {
+    width: 200px;
+}
