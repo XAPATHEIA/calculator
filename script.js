@@ -53,16 +53,31 @@ calculatorButtons.forEach((button) => {
 // Variable to hold display element
 displayElement = document.getElementById('calculator-output');
 
+let operatorPrecedence = {
+    first: '%',
+    second: '/',
+    third: '×',
+    fourth: '+',
+    fifth: '-'
+}
+
 let operators = ['%', '/', '×', '+', '-']
 
-function checkForOperator(operator) {
+function cfo(operator) {
     for (i = 0; i < operators.length; i++) {
         if (operators[i] === operator) {
+            return true;
+        } else if (operator === undefined) {
             return true;
         }
     }
     return false;
 }
+
+function reverse(s){
+    return s.split("").reverse().join("");
+}
+
 
 function calculate(finalCalcString) {
     // removing whitespaces
@@ -70,24 +85,60 @@ function calculate(finalCalcString) {
     let finalCalcArray = calcArray.filter(argument => argument != ' ');
 
     // check if calculation starts and ends with an operator
-    if (checkForOperator(finalCalcArray[0]) && checkForOperator(finalCalcArray[finalCalcArray.length - 1])) {
+    if (cfo(finalCalcArray[0]) && cfo(finalCalcArray[finalCalcArray.length - 1])) {
         console.log('Incorrect Format');
         return 'Error';
     }
 
     // error check - two operators in a row
-    let index = 0;
     for (let index = 0; index < finalCalcArray.length - 1; index++) {
-        if (checkForOperator(finalCalcArray[index]) && checkForOperator(finalCalcArray[index + 1])) {
+        if (cfo(finalCalcArray[index]) && cfo(finalCalcArray[index + 1])) {
             console.log('Two Operators in a Row');
             return 'Error';
         }
     }
 
-    while (finalCalcArray) {
-        let operator = finalCalcArray.find(function(operator, index) {});
-    }
+    let numberA = '';
+    let numberB = '';
 
+    const regex = /\d+/;
+    const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item))
+
+
+    /* TODO: 
+        - Will find the two numbers to be operated on by modulus.
+        - Need to refactor in to a function
+        - Use with a loop/if-statement block to work on all operators
+        - Actually change the "finalCalcArray" array to resolve into a single number
+    */
+   
+    if (finalCalcArray.indexOf(operatorPrecedence.first) != '-1') {
+        var oi = finalCalcArray.indexOf(operatorPrecedence.first) + 1;
+        var startOfOi = 0;
+        var endOfOi = 0;
+        while (!cfo(finalCalcArray[oi]) && oi < finalCalcArray.length) {
+            numberB += finalCalcArray[oi];
+            if ((oi+1 > finalCalcArray.length) || cfo(finalCalcArray[oi+1])) {
+                endOfOi = oi;
+                break;
+            }
+            
+        }   
+    }   var oi = finalCalcArray.indexOf(operatorPrecedence.first) - 1;
+        while (!cfo(finalCalcArray[oi]) && oi >= 0) {
+            numberA += finalCalcArray[oi];
+            if (cfo(finalCalcArray[oi-1]) || oi-1 < 0) {
+                startOfOi = oi;
+            }
+            oi--;
+        }
+    numberA = reverse(numberA);
+
+    console.log(numberA);
+    console.log(numberB);
+    console.log("Start of calculation is " + startOfOi);
+    console.log("End of calculation is " + endOfOi);
+    
 /*
     let numberA = '';
     let numberB = '';
@@ -106,11 +157,11 @@ function calculate(finalCalcString) {
 
     function calculateSection() {
         for (let index = 0; index < finalCalcArray.length; index++) {
-            if (!(checkForOperator(finalCalcArray[index])) && !(numberACompleted)) {
+            if (!(cfo(finalCalcArray[index])) && !(numberACompleted)) {
                 numberA += finalCalcArray[index];
-            } else if (!(checkForOperator(finalCalcArray[index])) && !(numberBCompleted)) {
+            } else if (!(cfo(finalCalcArray[index])) && !(numberBCompleted)) {
                 numberB += finalCalcArray[index];
-            } else if (checkForOperator(finalCalcArray[index])) {
+            } else if (cfo(finalCalcArray[index])) {
                 numberACompleted = true;
                 operator = finalCalcArray[index];
             } else {
@@ -126,7 +177,6 @@ function calculate(finalCalcString) {
     resetMathSection();
     
     console.log(runningCalculation);
-
 */
 }
 
@@ -140,10 +190,10 @@ function updateDisplay(event) {
     } else if (button.value == '=') {
         calculate(displayElement.innerText);
     // If an operator has been pressed, then will add spacing to the display
-    } else if (checkForOperator(button.value, operators)) {      
+    } else if (cfo(button.value, operators)) {      
         displayElement.innerText += ' ' + button.value;
     // if an operator is at the end of the current display value, will add spacing to the display
-    } else if (checkForOperator(displayElement.innerText.slice(-1), operators)) {
+    } else if (cfo(displayElement.innerText.slice(-1), operators)) {
         displayElement.innerText += ' ' + button.value;
     } else {
         displayElement.innerText += button.value;
