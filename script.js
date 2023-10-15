@@ -28,3 +28,23 @@ function operate(a, operator, b) {
     }
 }
 
+// Event listener on click for all buttons
+let calculatorContainer = document.getElementById('calculator-container');
+let calculatorButtonContainer = document.getElementById('calculator-buttons');
+let calculatorButtons = document.querySelectorAll(".calculator-button");
+
+calculatorButtons.forEach((button) => {
+    button.addEventListener('click', updateDisplay)
+})
+
+// Variable to hold display element
+displayElement = document.getElementById('calculator-output');
+
+function updateDisplay(event) {
+    const button = event.target;
+    if (button.value == 'AC' || button.value == 'CE') {
+        displayElement.innerText = '';
+    } else {
+        displayElement.innerText += button.value;
+    }
+}

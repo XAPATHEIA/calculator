@@ -27,6 +27,7 @@ body {
     margin-top: 20px;
     align-self: center;
     box-sizing: border-box;
+    max-width: 90%;
     min-width: 90%;
     height: 20%;
     min-height: 10%;
@@ -35,6 +36,8 @@ body {
 }
 
 #calculator-output {
+    display: flex;
+    flex-wrap: wrap;
     font-size: 30px;
     margin: 0px;
     padding: 10px;
