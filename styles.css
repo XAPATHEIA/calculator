@@ -57,7 +57,7 @@ body {
     border-radius: 50px;
 }
 
-#equals {
+#equals, #all-clear {
     width: 200px;
 }
 
