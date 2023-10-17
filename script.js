@@ -64,6 +64,9 @@ let operatorPrecedence = {
 let operators = ['%', '/', '×', '+', '-']
 
 function cfo(operator) {
+    if (!isNaN(parseInt(operator))) {
+        return false;
+    }
     for (i = 0; i < operators.length; i++) {
         if (operators[i] === operator) {
             return true;
@@ -75,7 +78,7 @@ function cfo(operator) {
 }
 
 function reverse(s){
-    return s.split("").reverse().join("");
+    return s.split("").reverse();
 }
 
 
@@ -113,31 +116,36 @@ function calculate(finalCalcString) {
     */
    
     if (finalCalcArray.indexOf(operatorPrecedence.first) != '-1') {
-        var oi = finalCalcArray.indexOf(operatorPrecedence.first) + 1;
-        var startOfOi = 0;
-        var endOfOi = 0;
-        while (!cfo(finalCalcArray[oi]) && oi < finalCalcArray.length) {
-            numberB += finalCalcArray[oi];
-            if ((oi+1 > finalCalcArray.length) || cfo(finalCalcArray[oi+1])) {
-                endOfOi = oi;
+        var numberIndex = finalCalcArray.indexOf(operatorPrecedence.first) + 1;
+        var startOfnumberBIndex = numberIndex;
+        var endOfnumberBIndex = 0;
+        while (!cfo(finalCalcArray[numberIndex]) && numberIndex < finalCalcArray.length) {
+            numberB += finalCalcArray[numberIndex];
+            if ((numberIndex+1 > finalCalcArray.length) || cfo(finalCalcArray[numberIndex+1])) {
+                endOfnumberBIndex = numberIndex;
                 break;
             }
-            
+            numberIndex++
         }   
-    }   var oi = finalCalcArray.indexOf(operatorPrecedence.first) - 1;
-        while (!cfo(finalCalcArray[oi]) && oi >= 0) {
-            numberA += finalCalcArray[oi];
-            if (cfo(finalCalcArray[oi-1]) || oi-1 < 0) {
-                startOfOi = oi;
+    }   var numberIndex = finalCalcArray.indexOf(operatorPrecedence.first) - 1;
+        var endOfnumberAIndex = numberIndex;
+        while (!cfo(finalCalcArray[numberIndex]) && numberIndex >= 0) {
+            numberA += finalCalcArray[numberIndex];
+            if (cfo(finalCalcArray[numberIndex-1]) || numberIndex-1 < 0) {
+                startOfnumberAIndex = numberIndex;
             }
-            oi--;
+            numberIndex--;
         }
-    numberA = reverse(numberA);
+    numberA = parseInt(reverse(numberA));
 
     console.log(numberA);
     console.log(numberB);
-    console.log("Start of calculation is " + startOfOi);
-    console.log("End of calculation is " + endOfOi);
+    console.log(finalCalcArray);
+    // TODO: Start calculating here, index into original array and create new array so as to not constantly shift elements around
+    console.log("Start of numberB is " + startOfnumberBIndex);
+    console.log("End of numberB is " + endOfnumberBIndex);
+    console.log("Start of numberA is " + startOfnumberAIndex);
+    console.log("End of numberA is " + endOfnumberAIndex);
     
 /*
     let numberA = '';
