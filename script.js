@@ -68,6 +68,11 @@ function calculate(finalCalcString) {
     let calcArray = finalCalcString.split('');
     let finalCalcArray = calcArray.filter(argument => argument != ' ');
 
+    // checking if the calculation prompt is empty
+    if (finalCalcArray.length == 0) {
+        return 'Enter a calculation to begin.';
+    }
+
     // check if calculation starts and ends with an operator
     if (cfo(finalCalcArray[0]) && cfo(finalCalcArray[finalCalcArray.length - 1])) {
         console.log('Incorrect Format');
