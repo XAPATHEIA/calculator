@@ -45,6 +45,7 @@ let operatorPrecedence = {
 let operators = ['/', '×', '+', '−']
 
 function cfo(operator) {
+    // help with debugging - skips numbers when provided as an arg
     if (!isNaN(parseInt(operator))) {
         return false;
     }
@@ -58,6 +59,7 @@ function cfo(operator) {
     return false;
 }
 
+// reverse strings
 function reverse(s){
     return s.split("").reverse();
 }
@@ -93,6 +95,7 @@ function calculate(finalCalcString) {
         }
     }
 
+    //regex to collect numbers only
     const regex = /\d+/;
     const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item));
 
@@ -100,9 +103,12 @@ function calculate(finalCalcString) {
     var numberB = '';
 
     function calculateTwoElements(operator) {
+        // the first number that starts after the index of the provided operator
         var numberIndex = finalCalcArray.indexOf(operator) + 1;
         var startOfnumberBIndex = numberIndex;
         var endOfnumberBIndex = 0;
+
+        // while the current number is not an operator and is less than the total calculation array length
         while (!cfo(finalCalcArray[numberIndex]) && numberIndex < finalCalcArray.length) {
             numberB += finalCalcArray[numberIndex];
             if ((numberIndex+1 > finalCalcArray.length) || cfo(finalCalcArray[numberIndex+1])) {
@@ -114,6 +120,8 @@ function calculate(finalCalcString) {
         var numberIndex = finalCalcArray.indexOf(operator) - 1;
         var endOfnumberAIndex = numberIndex;
         var startOfnumberAIndex = 0;
+
+        // while the current number is not an operator and is more than 0 (because the calculation must start at index 0)
         while (!cfo(finalCalcArray[numberIndex]) && numberIndex >= 0) {
             numberA += finalCalcArray[numberIndex];
             if (cfo(finalCalcArray[numberIndex-1]) || numberIndex-1 < 0) {
@@ -121,16 +129,22 @@ function calculate(finalCalcString) {
             }
             numberIndex--;
         }
+
+        // reverses the first number because it is put together backwards, the loop goes backwards
         numberA = (reverse(numberA)).join('');
 
 
         console.log("Number A is " + numberA);
         console.log("Number B is " + numberB);
         console.log("Initial FinalCalcArray is " + finalCalcArray.join(''));
+
+        // computes which section of the finalcalcarray to remove, and the result of the 2 pairs of numbers to be operated on
         let elementsToRemove = (endOfnumberBIndex - startOfnumberAIndex) + 1;
         let calculation = operations[operator](numberA, numberB);
         calculation = Math.round((calculation + Number.EPSILON) * 100) / 100;
         console.log(`Result of Number A ${operator} Number B is ${calculation.toString().split('').join('')}`);
+
+        // removes calculated numbers and its operator and replaces with the new number instead
         let elementsToAdd = calculation.toString().split('');
         finalCalcArray.splice(startOfnumberAIndex, elementsToRemove, ...elementsToAdd);
         console.log("Resultant FinalCalcArray is " + finalCalcArray.join(''));
@@ -138,6 +152,7 @@ function calculate(finalCalcString) {
         numberB = '';
     }
 
+    // while the finalcalcarray has an operator in it (and therefore more calculation to do)
     while (finalCalcArray.some(operator => operators.includes(operator))) {
         for (let i = 0; i < finalCalcArray.length - 1; i++) {
             if (finalCalcArray[i] == '.' && finalCalcArray[i+1] == '.') {
@@ -164,6 +179,7 @@ function calculate(finalCalcString) {
             break;
         }
     }
+    // if the resulting finalcalcarray can be converted into float, return it, otherwise, an error occured.
     if (!isNaN(parseFloat(finalCalcArray.join('')))) {
         return finalCalcArray;
     } else {
