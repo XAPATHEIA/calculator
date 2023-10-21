@@ -57,8 +57,12 @@ body {
     border-radius: 50px;
 }
 
-#equals, #all-clear {
+#equals {
     width: 200px;
+}
+
+#negative {
+    font-size: 15px;
 }
 
 button {
