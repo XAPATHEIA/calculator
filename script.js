@@ -107,16 +107,15 @@ function calculate(finalCalcString) {
     const regex = /\d+/;
     const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item))
 
-
     /* TODO: 
         - Will find the two numbers to be operated on by modulus.
         - Need to refactor in to a function
         - Use with a loop/if-statement block to work on all operators
         - Actually change the "finalCalcArray" array to resolve into a single number
     */
-   
-    if (finalCalcArray.indexOf(operatorPrecedence.first) != '-1') {
-        var numberIndex = finalCalcArray.indexOf(operatorPrecedence.first) + 1;
+
+    function calculateTwoElements(operator) {
+        var numberIndex = finalCalcArray.indexOf(operator) + 1;
         var startOfnumberBIndex = numberIndex;
         var endOfnumberBIndex = 0;
         while (!cfo(finalCalcArray[numberIndex]) && numberIndex < finalCalcArray.length) {
@@ -127,7 +126,7 @@ function calculate(finalCalcString) {
             }
             numberIndex++
         }   
-    }   var numberIndex = finalCalcArray.indexOf(operatorPrecedence.first) - 1;
+        var numberIndex = finalCalcArray.indexOf(operator) - 1;
         var endOfnumberAIndex = numberIndex;
         while (!cfo(finalCalcArray[numberIndex]) && numberIndex >= 0) {
             numberA += finalCalcArray[numberIndex];
@@ -136,17 +135,63 @@ function calculate(finalCalcString) {
             }
             numberIndex--;
         }
-    numberA = parseInt(reverse(numberA));
+        numberA = (reverse(numberA)).join('');
 
-    console.log(numberA);
-    console.log(numberB);
-    console.log(finalCalcArray);
-    // TODO: Start calculating here, index into original array and create new array so as to not constantly shift elements around
-    console.log("Start of numberB is " + startOfnumberBIndex);
-    console.log("End of numberB is " + endOfnumberBIndex);
-    console.log("Start of numberA is " + startOfnumberAIndex);
-    console.log("End of numberA is " + endOfnumberAIndex);
-    
+        console.log(numberA);
+        console.log(numberB);
+        console.log(finalCalcArray);
+        // TODO: Start calculating here, index into original array and create new array so as to not constantly shift elements around
+        console.log("Start of numberB is " + startOfnumberBIndex);
+        console.log("End of numberB is " + endOfnumberBIndex);
+        console.log("Start of numberA is " + startOfnumberAIndex);
+        console.log("End of numberA is " + endOfnumberAIndex);
+        let elementsToRemove = (endOfnumberBIndex - startOfnumberAIndex) + 1;
+        let calculation = operations[operator](numberA, numberB);
+        let elementsToAdd = calculation.toString().split('');
+        finalCalcArray.splice(startOfnumberAIndex, elementsToRemove, ...elementsToAdd);
+        console.log(calculation);
+        console.log(elementsToAdd);
+        console.log(finalCalcArray);
+    }
+
+    while (finalCalcArray.find(operator => operations.includes(operator))) {
+        if (finalCalcArray.includes(operatorPrecedence.first)) {
+            calculateTwoElements(operatorPrecedence.first);
+            continue;
+        } else if (finalCalcArray.includes(operatorPrecedence.second)) {
+            calculateTwoElements(operatorPrecedence.second);
+            continue;
+        } else if (finalCalcArray.includes(operatorPrecedence.third)) {
+            calculateTwoElements(operatorPrecedence.third);
+            continue;
+        } else if (finalCalcArray.includes(operatorPrecedence.fourth)) {
+            calculateTwoElements(operatorPrecedence.fourth);
+            continue;
+        } else if (finalCalcArray.includes(operatorPrecedence.fifth)) {
+            calculateTwoElements(operatorPrecedence.fifth);
+            continue;
+        } else {
+            break;
+        }
+    }
+ /*       
+        
+        if (finalCalcArray[i] == operatorPrecedence.first) {
+            calculateTwoElements(operatorPrecedence.first);
+        } else if (finalCalcArray[i] == operatorPrecedence.second) {
+            calculateTwoElements(operatorPrecedence.second);
+        } else if (finalCalcArray[i] == operatorPrecedence.third) {
+            calculateTwoElements(operatorPrecedence.third);
+        } else if (finalCalcArray[i] == operatorPrecedence.fourth) {
+            calculateTwoElements(operatorPrecedence.fourth);
+        } else if (finalCalcArray[i] == operatorPrecedence.fifth) {
+            calculateTwoElements(operatorPrecedence.fifth);
+        } else {
+            i++;
+        }
+    }
+*/
+
 /*
     let numberA = '';
     let numberB = '';
