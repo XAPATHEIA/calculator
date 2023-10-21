@@ -88,11 +88,11 @@ function calculate(finalCalcString) {
         }
     }
 
-    let numberA = '';
-    let numberB = '';
-
     const regex = /\d+/;
     const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item));
+
+    var numberA = '';
+    var numberB = '';
 
     function calculateTwoElements(operator) {
         var numberIndex = finalCalcArray.indexOf(operator) + 1;
@@ -118,24 +118,7 @@ function calculate(finalCalcString) {
         }
         numberA = (reverse(numberA)).join('');
 
-        // decimal checking
-        numberACheck = [...numberA];
-        numberBCheck = [...numberB];
 
-        if (numberACheck[0] == '.' || numberBCheck[0] == '.') {
-            return 'Number cannot start with a decimal';
-        } else if (numberACheck[numberACheck.length - 1] == '.' || numberBCheck[numberBCheck.length - 1] == '.') {
-            return 'Number cannot end with a decimal';
-        }
-
-        decimalOccurencesA = numberACheck.filter(decimal => decimal == '.');
-        decimalOccurencesB = numberBCheck.filter(decimal => decimal == '.');
-
-        if (decimalOccurencesA.length > 1 || decimalOccurencesB.length > 1) {
-            return 'Cannot have more than one decimal in a number';
-        }
-
-        
         console.log("Number A is " + numberA);
         console.log("Number B is " + numberB);
         console.log("Initial FinalCalcArray is " + finalCalcArray.join(''));
@@ -151,6 +134,12 @@ function calculate(finalCalcString) {
     }
 
     while (finalCalcArray.some(operator => operators.includes(operator))) {
+        for (let i = 0; i < finalCalcArray.length - 1; i++) {
+            if (finalCalcArray[i] == '.' && finalCalcArray[i+1] == '.') {
+                return 'Cannot have more than one decimal per number.'
+                break;
+            }
+        }
         if (finalCalcArray.includes(operatorPrecedence.first)) {
             calculateTwoElements(operatorPrecedence.first);
             continue;
@@ -170,7 +159,7 @@ function calculate(finalCalcString) {
             break;
         }
     }
-    if (!isNaN(parseInt(finalCalcArray.join('')))) {
+    if (!isNaN(parseFloat(finalCalcArray.join('')))) {
         return finalCalcArray;
     } else {
         return "Incorrect Format";
