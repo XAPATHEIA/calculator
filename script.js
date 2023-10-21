@@ -15,15 +15,11 @@ function divide(a, b) {
     }
 }
 
-const modulo = (a, b) => parseInt(a) % parseInt(b);
-
-
 const operations = {
-    '%': modulo,
     '/': divide,
     '×': multiply,
     '+': add,
-    '-': subtract
+    '−': subtract
 }
 
 
@@ -40,23 +36,22 @@ calculatorButtons.forEach((button) => {
 displayElement = document.getElementById('calculator-output');
 
 let operatorPrecedence = {
-    first: '%',
-    second: '/',
-    third: '×',
-    fourth: '+',
-    fifth: '-'
+    first: '/',
+    second: '×',
+    third: '+',
+    fourth: '−'
 }
 
-let operators = ['%', '/', '×', '+', '-']
+let operators = ['/', '×', '+', '−']
 
 function cfo(operator) {
     if (!isNaN(parseInt(operator))) {
         return false;
     }
     for (i = 0; i < operators.length; i++) {
-        if (operators[i] === operator) {
+        if (operators[i] == operator) {
             return true;
-        } else if (operator === undefined) {
+        } else if (operator == undefined) {
             return true;
         }
     }
@@ -76,14 +71,20 @@ function calculate(finalCalcString) {
     // check if calculation starts and ends with an operator
     if (cfo(finalCalcArray[0]) && cfo(finalCalcArray[finalCalcArray.length - 1])) {
         console.log('Incorrect Format');
-        return 'Error';
+        return 'Calculation cannot start and end with an operator.';
+    }
+
+    // check if calculation ends with an operator
+    if (cfo(finalCalcArray[finalCalcArray.length - 1])) {
+        console.log('Incorrect Format');
+        return 'Calculation cannot end with an operator.';
     }
 
     // error check - two operators in a row
     for (let index = 0; index < finalCalcArray.length - 1; index++) {
         if (cfo(finalCalcArray[index]) && cfo(finalCalcArray[index + 1])) {
             console.log('Two Operators in a Row');
-            return 'Error';
+            return 'Calculation cannot have two operators in a row.';
         }
     }
 
@@ -168,10 +169,18 @@ function calculate(finalCalcString) {
 function updateDisplay(event) {
     const button = event.target;
     // Will clear display for now
-    if (button.value == 'AC' || button.value == 'CE') {
+    if (button.value == 'AC') {
         displayElement.innerText = '';
+    } else if (button.value == 'CE') {
+        displayElement.innerText = displayElement.innerText.slice(0, -1);
     } else if (button.value == '=') {
-        displayElement.innerText = calculate(displayElement.innerText).join('');
+        try {
+            displayElement.innerText = calculate(displayElement.innerText).join('');
+        }
+        catch(err) {
+            displayElement.innerText = calculate(displayElement.innerText);
+            console.log(err.message);
+        }
     // If an operator has been pressed, then will add spacing to the display
     } else if (cfo(button.value, operators)) {      
         displayElement.innerText += ' ' + button.value;
