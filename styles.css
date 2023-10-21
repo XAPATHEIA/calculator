@@ -1,4 +1,11 @@
+* {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+
+
 body {
+    background-color: #121212;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,6 +16,7 @@ body {
 
 
 #calculator-container {
+    background-color: #1E2326;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -16,19 +24,21 @@ body {
     vertical-align: middle; 
     width: 450px;
     height: 800px;
-    border: 2px solid black;
+    border: 1px solid #A9A9A9;
     border-radius: 20px;
 }
 
 #calculator-display {
+    color: #333333;
+    background-color: #BEBEBE;
     display: flex;
     justify-content: end;
     flex-wrap: wrap;
     margin-top: 20px;
     align-self: center;
     box-sizing: border-box;
-    max-width: 90%;
-    min-width: 90%;
+    width: 90%;
+    width: 90%;
     height: 20%;
     min-height: 10%;
     border: 2px solid black;
@@ -36,8 +46,7 @@ body {
 }
 
 #calculator-output {
-    display: flex;
-    flex-wrap: wrap;
+    word-break:break-all;
     font-size: 30px;
     margin: 0px;
     padding: 10px;
@@ -66,6 +75,39 @@ body {
 }
 
 button {
+    color: #BEBEBE;
+    background-color: #2e3336;
     font-size: 30px;
     font-weight: bold;
+    border: #A87D17;
+}
+
+button:hover {
+    background-color: #292d30;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+    background-color: #1E2326; /* Darken the color significantly */
+    transition: background-color 0.2s; /* Add a transition for a smooth effect */
+  }
+
+#divide, #add, #subtract, #multiply {
+    background-color: #CCCCCC;
+    color: #2e3336;
+    
+}
+
+#divide:hover, #add:hover, #subtract:hover, #multiply:hover {
+    background-color: #A87D17;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#divide:active, #add:active, #subtract:active, #multiply:active {
+    background-color: #8a7416;
+    transition: background-color 0.1s;
+}
+
+#equals:hover {
+    background-color: #006400;
 }
