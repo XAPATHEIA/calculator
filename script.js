@@ -1,13 +1,13 @@
 // Defining math operator functions 
 
-const add = (a, b) => parseInt(a) + parseInt(b);
+const add = (a, b) => parseFloat(a) + parseFloat(b);
 
-const subtract = (a, b) => parseInt(a) - parseInt(b);
+const subtract = (a, b) => parseFloat(a) - parseFloat(b);
 
-const multiply = (a, b) => parseInt(a) * parseInt(b);
+const multiply = (a, b) => parseFloat(a) * parseFloat(b);
 
 function divide(a, b) {
-    if (parseInt(a) === 0 || parseInt(b) === 0) {
+    if (parseFloat(a) == 0 || parseFloat(b) == 0) {
         console.log("Cannot divide by zero");
         return 'Error';
     } else {
@@ -92,14 +92,7 @@ function calculate(finalCalcString) {
     let numberB = '';
 
     const regex = /\d+/;
-    const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item))
-
-    /* TODO: 
-        - Will find the two numbers to be operated on by modulus.
-        - Need to refactor in to a function
-        - Use with a loop/if-statement block to work on all operators
-        - Actually change the "finalCalcArray" array to resolve into a single number
-    */
+    const operatorsInCalculation = finalCalcArray.filter(item => !regex.test(item));
 
     function calculateTwoElements(operator) {
         var numberIndex = finalCalcArray.indexOf(operator) + 1;
@@ -125,11 +118,30 @@ function calculate(finalCalcString) {
         }
         numberA = (reverse(numberA)).join('');
 
+        // decimal checking
+        numberACheck = [...numberA];
+        numberBCheck = [...numberB];
+
+        if (numberACheck[0] == '.' || numberBCheck[0] == '.') {
+            return 'Number cannot start with a decimal';
+        } else if (numberACheck[numberACheck.length - 1] == '.' || numberBCheck[numberBCheck.length - 1] == '.') {
+            return 'Number cannot end with a decimal';
+        }
+
+        decimalOccurencesA = numberACheck.filter(decimal => decimal == '.');
+        decimalOccurencesB = numberBCheck.filter(decimal => decimal == '.');
+
+        if (decimalOccurencesA.length > 1 || decimalOccurencesB.length > 1) {
+            return 'Cannot have more than one decimal in a number';
+        }
+
+        
         console.log("Number A is " + numberA);
         console.log("Number B is " + numberB);
         console.log("Initial FinalCalcArray is " + finalCalcArray.join(''));
         let elementsToRemove = (endOfnumberBIndex - startOfnumberAIndex) + 1;
         let calculation = operations[operator](numberA, numberB);
+        calculation = Math.round((calculation + Number.EPSILON) * 100) / 100;
         console.log(`Result of Number A ${operator} Number B is ${calculation.toString().split('').join('')}`);
         let elementsToAdd = calculation.toString().split('');
         finalCalcArray.splice(startOfnumberAIndex, elementsToRemove, ...elementsToAdd);
